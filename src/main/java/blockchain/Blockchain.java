@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Blockchain {
 	
-	Block current_block;
+	Block current_block = new Block();
 	ArrayList<Block> blockchain = new ArrayList<>();
 	
 	public static void main(String[] args) {
@@ -102,7 +102,7 @@ public class Blockchain {
 		current_block.addTransaction(trans);
 	}
 	
-	public int proof_of_work() {
+	public int proof_of_work(Integer last_proof) {
 		/*
         Simple Proof of Work Algorithm:
          - Find a number p' such that hash(pp') contains leading 4 zeroes, where p is the previous p'
@@ -110,7 +110,11 @@ public class Blockchain {
         :param last_proof: <int>
         :return: <int> 
 		 */
-		return 1;
+		Integer proof = 0;
+		while (valid_proof(last_proof, proof) == false) {
+			proof += 1;
+		}
+		return proof;
 	}
 	
 	
@@ -121,8 +125,14 @@ public class Blockchain {
         	:param proof: <int> Current Proof
         	:return: <bool> True if correct, False if not.
 		 */
-		
-		return true;
+		String guess = Integer.toString(last_proof) + Integer.toString(nonce);
+		byte[] hash = hash(guess);
+		String h = hash.toString();
+		if(h.substring(0, 4) == "0000") {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public static byte[] hash(String input) {
 		MessageDigest digest = null;

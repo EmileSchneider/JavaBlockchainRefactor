@@ -10,7 +10,7 @@ import blockchain.*;
 
 public class blockchain {
 	
-	Blockchain blockchain = new Blockchain();
+	Blockchain bc = new Blockchain();
 
 	@Test
 	public void test() {
@@ -22,21 +22,20 @@ public class blockchain {
 	}
 	
 	@Test
-	public void test2() {
-		blockchain.new_block();
-		assertEquals(0, blockchain.getBlockchain().size());
+	public void test_new_block() {
+		bc.new_block();
+		assertEquals(bc.getBlockchain().size() + 1, bc.getCurrentBlock().getID());
 	}
 	
 	@Test
-	public void test3() {
-		blockchain.new_block();
-		blockchain.new_transaction("Emile", "Lazarus", 5);
-		Block b = blockchain.getCurrentBlock();
-		System.out.println(b.getTransactionList().get(0).getTransactionString());
-		b.setHash(blockchain.hash("123"));
-		b.setPrevious_hash(blockchain.hash("321"));
+	public void test_new_transaction() {
+		bc.new_transaction("Emile", "Laz", 5);
+		String trans_string = bc.getCurrentBlock().getTransactionList().get(0).getTransactionString();    
+		assertEquals("EmileLaz5", trans_string);
+	}
+	@Test 
+	public void test_proof_of_work() {
 		
-		//System.out.println(b.getBlockstring());
 	}
 
 }
