@@ -21,3 +21,7 @@ The software consists of three different classes.
 2. a Block class
 3. a Transaction class
 
+The Blockchain class (BC) holds an `ArrayList<Blocks>`. The Block class (BL) holds
+an `ArrayList<Transaction>`. The Transaction class (TC) holds a `String` sender, a `String` recipient, and a `int` amount.
+
+The BC creates a new BL and access it with `current_block`. The BC **will soon** organize the networking and messaging with different nodes of the network. Currently it just handles the creation of blocks, the creation and writing of transactions, and checks the validity of his own blockchain.
