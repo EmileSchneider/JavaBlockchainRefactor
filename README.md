@@ -48,6 +48,9 @@ it would probably better to put a hashing method inside the block and not out-so
 Self explaining
 
 
-#How the company will be run
+# How the company will be run
 
 ![alt text](https://github.com/EmileSchneider/JavaBlockchainRefactor/blob/master/Test.jpg)
+
+People and companies can trade on the blockchain. The currency will be StockCoin **not final**.The currency gets mined.
+People and companies can buy IOUs and trade the in exchange for StockCoins. The money of the IOU gets managed by us, for that they pay a small fee. Every holder of an IOU can invoke that IOU and get the promised good. It is more or less a forward contract.  
