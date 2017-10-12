@@ -1,5 +1,3 @@
-# JavaBlockchainRefactor
-
 # A Simple Blockchain Written In Java
 
 ## How A Blockchain Works
@@ -49,3 +47,7 @@ it would probably better to put a hashing method inside the block and not out-so
 
 Self explaining
 
+
+#How the company will be run
+
+![alt text](https://github.com/EmileSchneider/JavaBlockchainRefactor/blob/master/Test.jpg)
