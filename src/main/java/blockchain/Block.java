@@ -11,13 +11,13 @@ public class Block {
 	/* timestamp */
 	ArrayList<Transaction> transaction_list = new ArrayList<>();
 	byte[] hash; /* no need */
-	byte[] previous_hash;
+	String previous_hash;
 	
 	
 	public static void main(String[] args) {
 		
 	}
-	
+
 	/*
 	 * SETTERS
 	 */
@@ -30,14 +30,13 @@ public class Block {
 	public void setHash(byte[] h) {
 		this.hash = h;
 	}
-	public void setPrevious_hash(byte[] h) {
+	public void setPrevious_hash(String h) {
 		this.previous_hash = h;
 	}
 	/* add Transaction to List */
 	public void addTransaction(Transaction trans) {
 		transaction_list.add(trans);
 	}
-	
 	/*
 	 * GETTERS
 	 */
@@ -53,7 +52,7 @@ public class Block {
 	public byte[] getHash() {
 		return this.hash;
 	}
-	public byte[] getPrevHash() {
+	public String getPrevHash() {
 		return this.previous_hash;
 	}
 	/* returns the String of the Block*/
@@ -64,11 +63,11 @@ public class Block {
 		}
 		
 		String hash_string = Arrays.toString(hash);
-		String prev_hash_string = Arrays.toString(previous_hash);
+		String prev_hash_string = previous_hash;
 		
 		return Integer.toString(this.ID) + Integer.toString(this.nonce) + stringOfTransactions + hash_string + prev_hash_string;
-		
 	}
+
 	
 	
 }

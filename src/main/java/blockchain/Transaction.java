@@ -24,6 +24,9 @@ public class Transaction {
 	public Integer getAmount() {
 		return this.amount;
 	}
+	public String getAmountAsString() {
+		return Integer.toString(this.amount);
+	}
 	/*return the transaction String*/
 	public String getTransactionString() {
 		return getSender() + getRecipient() + Integer.toString(getAmount());
