@@ -1,16 +1,31 @@
 package blockchain;
 
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
+import com.google.common.hash.Hashing;
+
+//import org.apache.commons.codec.digest.DigestUtils.sha256Hex(stringText);
+
 
 public class Blockchain {
 	
-	Block current_block = new Block();
+	Block  current_block;
 	ArrayList<Block> blockchain = new ArrayList<>();
 	
-	public static void main(String[] args) {
+	public void main(String[] args) {
+		Block genesis_block = new Block();
+		
+		genesis_block.setID(0);
+		genesis_block.setPrevious_hash("0");
+		Transaction gift_from_gods = new Transaction();
+		gift_from_gods.setSender("JHV");
+		gift_from_gods.setRecipient("Emile");
+		gift_from_gods.setAmount(50);
+		genesis_block.addTransaction(gift_from_gods);
+		
+		current_block = genesis_block;
+		this.mine();
 	}
 	
 	/*
@@ -94,15 +109,45 @@ public class Blockchain {
         :param amount: <int> Amount
         :return: <int> The index of the Block that will hold this transaction
 		 */
-		
 		Transaction trans = new Transaction();
 		trans.setAmount(a);
 		trans.setRecipient(r);
 		trans.setSender(s);
-		current_block.addTransaction(trans);
+		current_block.addTransaction(trans); 
 	}
 	
-	public int proof_of_work(Integer last_proof) {
+	public void mine() {
+		/*
+		//check if block is complete.
+		if(current_block.getID() == (int)current_block.getID()) {
+		} else {
+			break;
+		}
+		
+		if(current_block.getTransactionList().size() == 0) {
+			break;
+		}
+		//somethin..
+		if(current_block.getPrevHash()) {
+			
+		}
+		*/
+		
+		int nonce = 0;
+		String block_string = current_block.getBlockstring();
+		String hash = Blockchain.hash(block_string);
+		
+		while(valid_proof(hash) == false) {
+			nonce += 1;
+			current_block.setNonce(nonce);
+			block_string = current_block.getBlockstring();
+			hash = Blockchain.hash(block_string);
+		}
+		
+		blockchain.add(current_block);
+	}
+	
+	public static int proof_of_work(Integer last_proof) {
 		/*
         Simple Proof of Work Algorithm:
          - Find a number p' such that hash(pp') contains leading 4 zeroes, where p is the previous p'
@@ -112,37 +157,63 @@ public class Blockchain {
 		 */
 		Integer proof = 0;
 		while (valid_proof(last_proof, proof) == false) {
+			System.out.print(proof);
+			System.out.print(Blockchain.hash(Integer.toString(last_proof) + Integer.toString(proof)));
 			proof += 1;
 		}
 		return proof;
 	}
 	
 	
-	public boolean valid_proof(Integer last_proof, Integer nonce) {
+	public static boolean valid_proof(String hash) {
 		/*        
 		Validates the Proof
-        	:param last_proof: <int> Previous Proof
-        	:param proof: <int> Current Proof
-        	:return: <bool> True if correct, False if not.
+        	:param: <String> gets a hash as a string         	
+        	:return: <bool> True if hash proofs work
 		 */
-		String guess = Integer.toString(last_proof) + Integer.toString(nonce);
-		byte[] hash = hash(guess);
-		String h = hash.toString();
-		if(h.substring(0, 4) == "0000") {
+		
+		/* the hash is "valid" if it starts with a 0 (could be also 5 or 120)*/
+		if(hash.substring(0, 1) == "0") {
 			return true;
 		} else {
 			return false;
 		}
 	}
-	public static byte[] hash(String input) {
-		MessageDigest digest = null;
-		try {
-			digest = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		byte[] hash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-		return hash;
-	}
+	
+	public static String hash(String input) {
+		return Hashing.sha256().hashString(input, StandardCharsets.UTF_8).toString();	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
